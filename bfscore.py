@@ -1,8 +1,15 @@
-# -*- coding:utf-8 -*-
+"""
+This is a fork of an open-source implementation of BF-score in Python
+(https://github.com/minar09/bfscore_python).
 
-# bfscore: Contour/Boundary matching score for multi-class image segmentation #
-# Reference: Csurka, G., D. Larlus, and F. Perronnin. "What is a good evaluation measure for semantic segmentation?" Proceedings of the British Machine Vision Conference, 2013, pp. 32.1-32.11. #
-# Crosscheck: https://www.mathworks.com/help/images/ref/bfscore.html #
+References
+----------
+* Csurka, G., D. Larlus, and F. Perronnin. "What is a good evaluation measure
+for semantic segmentation?" Proceedings of the British Machine Vision
+Conference, 2013, pp. 32.1-32.11.
+* crosscheck: https://www.mathworks.com/help/images/ref/bfscore.html
+* https://github.com/minar09/bfscore_python
+"""
 
 import cv2
 import numpy as np
