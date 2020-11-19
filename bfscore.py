@@ -27,18 +27,17 @@ def calc_precision_recall(contours_a, contours_b, threshold):
     y = contours_b
 
     xx = np.array(x)
-    hits = []
+    hits = 0
     for yrec in y:
         d = np.square(xx[:,0] - yrec[0]) + np.square(xx[:,1] - yrec[1])
-        hits.append(np.any(d < threshold*threshold))
-    top_count = np.sum(hits)
+        hits += np.any(d < threshold*threshold)
 
     try:
-        precision_recall = top_count / len(y)
+        precision_recall = hits / len(y)
     except ZeroDivisionError:
         precision_recall = 0
 
-    return precision_recall, top_count, len(y)
+    return precision_recall, hits, len(y)
 
 
 
@@ -162,8 +161,8 @@ def bfscore(gtfile, prfile, threshold=2):
         print("\tf1:", f1)
         bfscores[target_class] = f1
 
-        cv2.imshow('image', img)
-        cv2.waitKey(1000)
+        # cv2.imshow('image', img)
+        # cv2.waitKey(1000)
 
     cv2.destroyAllWindows()
 
