@@ -15,39 +15,24 @@ import cv2
 import numpy as np
 import math
 
+from metric_bfscore import calc_precision_recall
+
 major = cv2.__version__.split('.')[0]     # Get opencv version
 bDebug = False
-
-
-""" For precision, contours_a==GT & contours_b==Prediction
-    For recall, contours_a==Prediction & contours_b==GT """
-
-def calc_precision_recall(contours_a, contours_b, threshold):
-    x = contours_a
-    y = contours_b
-
-    xx = np.array(x)
-    hits = 0
-    for yrec in y:
-        d = np.square(xx[:,0] - yrec[0]) + np.square(xx[:,1] - yrec[1])
-        hits += np.any(d < threshold*threshold)
-
-    try:
-        precision_recall = hits / len(y)
-    except ZeroDivisionError:
-        precision_recall = 0
-
-    return precision_recall, hits, len(y)
-
 
 
 """ computes the BF (Boundary F1) contour matching score between the predicted and GT segmentation """
 
 
-def bfscore(gtfile, prfile, threshold=2):
+def bfscore(gtfile, prfile, theta=2):
 
+    print(gtfile)
     gt__ = cv2.imread(gtfile)    # Read GT segmentation
+    for row in gt__:
+        print(np.unique(row))
+    print(np.unique(gt__))
     gt_ = cv2.cvtColor(gt__, cv2.COLOR_BGR2GRAY)    # Convert color space
+    print(gt_)
 
     pr_ = cv2.imread(prfile)    # Read predicted segmentation
     pr_ = cv2.cvtColor(pr_, cv2.COLOR_BGR2GRAY)    # Convert color space
@@ -145,11 +130,11 @@ def bfscore(gtfile, prfile, threshold=2):
 
         # 3. calculate
         precision, numerator, denominator = calc_precision_recall(
-            contours_gt, contours_pr, threshold)    # Precision
+            contours_gt, contours_pr, theta)    # Precision
         print("\tprecision:", denominator, numerator)
 
         recall, numerator, denominator = calc_precision_recall(
-            contours_pr, contours_gt, threshold)    # Recall
+            contours_pr, contours_gt, theta)    # Recall
         print("\trecall:", denominator, numerator)
 
         f1 = 0
