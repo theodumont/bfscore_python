@@ -26,17 +26,8 @@ bDebug = False
 
 def bfscore(gtfile, prfile, theta=2):
 
-    # print(gtfile)
     gt__ = cv2.imread(gtfile)    # Read GT segmentation
-    # for row in gt__:
-    #     print(np.unique(row))
-    # print(np.unique(gt__))
-    print(gt__.shape)
     gt_ = cv2.cvtColor(gt__, cv2.COLOR_BGR2GRAY)    # Convert color space
-    print(gt_.shape)
-
-    import sys
-    sys.exit(1)
 
     pr_ = cv2.imread(prfile)    # Read predicted segmentation
     pr_ = cv2.cvtColor(pr_, cv2.COLOR_BGR2GRAY)    # Convert color space
