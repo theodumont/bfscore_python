@@ -15,7 +15,7 @@ import cv2
 import numpy as np
 import math
 
-from metric_bfscore import calc_precision_recall
+from metric_bfscore import compute_precision_recall, compute_f1
 
 major = cv2.__version__.split('.')[0]     # Get opencv version
 bDebug = False
@@ -26,13 +26,17 @@ bDebug = False
 
 def bfscore(gtfile, prfile, theta=2):
 
-    print(gtfile)
+    # print(gtfile)
     gt__ = cv2.imread(gtfile)    # Read GT segmentation
-    for row in gt__:
-        print(np.unique(row))
-    print(np.unique(gt__))
+    # for row in gt__:
+    #     print(np.unique(row))
+    # print(np.unique(gt__))
+    print(gt__.shape)
     gt_ = cv2.cvtColor(gt__, cv2.COLOR_BGR2GRAY)    # Convert color space
-    print(gt_)
+    print(gt_.shape)
+
+    import sys
+    sys.exit(1)
 
     pr_ = cv2.imread(prfile)    # Read predicted segmentation
     pr_ = cv2.cvtColor(pr_, cv2.COLOR_BGR2GRAY)    # Convert color space
@@ -137,12 +141,8 @@ def bfscore(gtfile, prfile, theta=2):
             contours_pr, contours_gt, theta)    # Recall
         print("\trecall:", denominator, numerator)
 
-        f1 = 0
-        try:
-            f1 = 2*recall*precision/(recall + precision)    # F1 score
-        except:
-            #f1 = 0
-            f1 = np.nan
+        f1 = compute_f1(precision, recall)
+
         print("\tf1:", f1)
         bfscores[target_class] = f1
 
